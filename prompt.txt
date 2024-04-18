@@ -39,5 +39,15 @@ Severity Case Creation Date Account Manager Tier Customer Name Customer ID Regio
 2 2024-04-09 0:00 AWSAccountManager Tier 2 CustomerCity 0014z00001bvvuUAAQ Canada Business 7.24076E+11 1.7127E+14 Application Deployment Issue Elastic Beanstalk Tech Support Resolved sanckelv 0 8
 </SupportTickets>
 
-Create a customized email for the customer which will have high chances of getting a response. I want to copy the email content from here and send it 
+Create a customized email for the customer which will have high chances of getting a response. I want to copy the email content from here and send it. Use the following output format:
 
+<Subject>
+
+</Subject>
+
+<Body>
+
+</Body>
+
+<Signature>
+</Signature>

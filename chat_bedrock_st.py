@@ -22,7 +22,7 @@ def load_prompt_from_file(filepath):
 @st.cache_resource
 def load_llm():
     llm = Bedrock(client=bedrock_runtime, model_id="anthropic.claude-v2")
-    llm.model_kwargs = {"temperature": 0.7, "max_tokens_to_sample": 2048}
+    llm.model_kwargs = {"temperature": 0.1, "max_tokens_to_sample": 2048}
 
     model = ConversationChain(llm=llm, verbose=True, memory=ConversationBufferMemory())
 
@@ -38,23 +38,35 @@ if st.button('Call Cost API'):
     response = requests.get('https://7cxxu7h62f.execute-api.us-east-1.amazonaws.com/Dev/cost')
     st.write(response.json())
 
-prompt_path = 'email_prompt.txt'  # Path to the file containing the prompt
-email_prompt = load_prompt_from_file(prompt_path)
+prompt_path1 = 'email_prompt1.txt'  # Path to the file containing the prompt
+email_prompt1 = load_prompt_from_file(prompt_path1)
 
-if st.button('Generate Email'):
-    if email_prompt:
-        message_placeholder = st.empty()  # Create an empty placeholder for dynamic updates
-        full_response = ""
+prompt_path2 = 'email_prompt2.txt'  # Path to the file containing the prompt
+email_prompt2 = load_prompt_from_file(prompt_path2)
 
-        # Generate response and simulate typing
-        response = model.predict(input=email_prompt)
-        words = response.split()  # Split response into words
-        for word in words:
-            full_response += word + ' '
-            if word.endswith(('.', '!', '?')):
-                full_response += "\n\n"  # Add newlines after sentences for better readability
-            time.sleep(0.05)  # Sleep to mimic typing speed
-            message_placeholder.text_area("Email Content:", value=full_response, height=300)
+# Create variables to store the generated email content
+generated_email_one = ""
+generated_email_two = ""
 
-    else:
-        st.error("Please ensure the email prompt file contains content.")
+# Create a column layout for the buttons and text areas
+col1, col2 = st.columns(2)
+
+with col1:
+    if st.button('Generate Email for Customer One'):
+        if email_prompt1:
+            # Generate response and simulate typing
+            response = model.predict(input=email_prompt1)
+            generated_email_one = response
+            st.text_area("Email Content for Customer One:", value=generated_email_one, height=900)
+        else:
+            st.error("Please ensure the email prompt file contains content.")
+
+with col2:
+    if st.button('Generate Email for Customer Two'):
+        if email_prompt2:
+            # Generate response and simulate typing
+            response = model.predict(input=email_prompt2)
+            generated_email_two = response
+            st.text_area("Email Content for Customer Two:", value=generated_email_two, height=900)
+        else:
+            st.error("Please ensure the email prompt file contains content.")
